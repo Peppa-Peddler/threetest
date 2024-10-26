@@ -19,7 +19,7 @@
 
 		<div id="curtain"></div>
 		<div id="overlay">
-			<h1 id="title">The Lonely Acolyte Flower <span>Camila Cáceres & Jorge Miranda</span></h1>
+			<h1 id="title">The Lonely Acolyte Flower <span>Chapter 1: This place holds no love for life</span></h1>
 			<button id="startButton">Play</button>
 		</div>
 		<div id="container"></div>
@@ -73,11 +73,47 @@
 				"even here..."
 			];
 
+			const monologue = [
+				{ subtitle: "In the endless expanse of the desert", duration: 4 },
+				{ subtitle: "I stand—small, silent, and alone", duration: 4 },
+				{ subtitle: "a single green leaf in a world of burning amber.", duration: 5 },
+				{ subtitle: "Day after day, the sun beats down", duration: 4 },
+				{ subtitle: "its heat relentless", duration: 3 },
+				{ subtitle: "pressing on my leaves", duration: 3 },
+				{ subtitle: "as if to remind me that this place holds no love for life.", duration: 6 },
+				{ subtitle: "My roots dig deep", duration: 3 },
+				{ subtitle: "stretching and curling into the depths below", duration: 5 },
+				{ subtitle: "searching, always searching", duration: 4 },
+				{ subtitle: "for the smallest drops of water hidden in the shadows.", duration: 6 },
+				{ subtitle: "Each breeze that passes stirs my leaves", duration: 5 },
+				{ subtitle: "a fleeting touch", duration: 3 },
+				{ subtitle: "a reminder of movement", duration: 3 },
+				{ subtitle: "in a world that seems frozen in an eternal drought.", duration: 7 },
+				{ subtitle: "There is no companion here", duration: 4 },
+				{ subtitle: "no other soul to share this endless quiet", duration: 5 },
+				{ subtitle: "only the open sky", duration: 3 },
+				{ subtitle: "and the sands stretching out in every direction.", duration: 5 },
+				{ subtitle: "Yet, in this solitude", duration: 4 },
+				{ subtitle: "I find a strange strength", duration: 4 },
+				{ subtitle: "a stubbornness that keeps me reaching upward", duration: 5 },
+				{ subtitle: "a quiet resilience", duration: 3 },
+				{ subtitle: "that whispers, 'I am here.'", duration: 5 },
+				{ subtitle: "Even as the world around me remains barren", duration: 5 },
+				{ subtitle: "I am a defiant whisper of life", duration: 4 },
+				{ subtitle: "a testament to growth", duration: 3 },
+				{ subtitle: "even in the harshest emptiness.", duration: 4 },
+				{ subtitle: "The desert may try to swallow me whole", duration: 5 },
+				{ subtitle: "but as long as I stand", duration: 4 },
+				{ subtitle: "I am a green mark on its endless golden skin", duration: 6 },
+				{ subtitle: "a reminder that life can exist", duration: 4 },
+				{ subtitle: "even here", duration: 5 }
+				];
+
 			function changeText() {
-				var timer = 3000;
-				for (let i = 0; i < dialog.length; i++) {
-					setTimeout(() => document.getElementById('subtitles').innerHTML = dialog[i], timer);
-					timer = timer + 2000;
+				var timer = 1000;
+				for (let i = 0; i < monologue.length; i++) {
+					setTimeout(() => document.getElementById('subtitles').innerHTML = monologue[i].subtitle, timer);
+					timer = timer + monologue[i].duration*1000;
 				}
 			}
 
@@ -102,7 +138,8 @@
 
 					listener = new THREE.AudioListener();
 					const audio = new THREE.Audio( listener );
-					const file = 'public/audio/winstartup.mp3';
+					audio.setLoop(true);
+					const file = 'public/audio/winstartuplooped.mp3';
 					startButton.remove();
 					title.remove();
 					overlay.style.opacity = '0';
