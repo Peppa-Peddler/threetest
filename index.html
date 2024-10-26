@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js webgl - shaders - ocean</title>
+		<title>Lonely non-human</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
@@ -17,10 +17,15 @@
 	</head>
 	<body>
 
-		<div id="container"></div>
-		<div id="info">
-			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - webgl ocean
+		<div id="curtain"></div>
+		<div id="overlay">
+			<h1 id="title">The Lonely Acolyte Flower <span>Camila Cáceres & Jorge Miranda</span></h1>
+			<button id="startButton">Play</button>
 		</div>
+		<div id="container"></div>
+		<div id="info"></div>
+
+		<div id="subtitles"></div>
 
 		<script type="module">
 
@@ -34,15 +39,99 @@
 			import { Sky } from 'three/addons/objects/Sky.js';
             import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+			const dialog = [
+				"In the endless expanse of the desert",
+				"I stand—small",
+				"silent",
+				"and alone—a single green leaf in a world of burning amber.",
+				"Day after day",
+				"the sun beats down",
+				"its heat relentless",
+				"pressing on my leaves as if to remind me that this place holds no love for life.",
+				"My roots dig deep",
+				"stretching and curling into the depths below",
+				"searching",
+				"always searching for the smallest drops of water hidden in the shadows.",
+				"Each breeze that passes stirs my leaves",
+				"a fleeting touch",
+				"a reminder of movement in a world that seems frozen in an eternal drought.",
+				"There is no companion here",
+				"no other soul to share this endless quiet",
+				"only the open sky and the sands stretching out in every direction.",
+				"Yet",
+				"in this solitude",
+				"I find a strange strength—a stubbornness that keeps me reaching upward",
+				"a quiet resilience that whispers",
+				"'I am here.'",
+				"Even as the world around me remains barren",
+				"I am a defiant whisper of life",
+				"a testament to growth even in the harshest emptiness.",
+				"The desert may try to swallow me whole",
+				"but as long as I stand",
+				"I am a green mark on its endless golden skin",
+				"a reminder that life can exist",
+				"even here..."
+			];
+
+			function changeText() {
+				var timer = 3000;
+				for (let i = 0; i < dialog.length; i++) {
+					setTimeout(() => document.getElementById('subtitles').innerHTML = dialog[i], timer);
+					timer = timer + 2000;
+				}
+			}
+
 			let container, stats;
 			let camera, scene, renderer;
-			let controls, water, sun, mesh, shiba;
-
+			let controls, water, sun, mesh, shiba, listener;
+			
 			init();
 
 			function init() {
 
 				container = document.getElementById( 'container' );
+
+				const startButton = document.getElementById( 'startButton' );
+				startButton.addEventListener( 'click', setAudio );
+				const overlay = document.getElementById('overlay');
+				overlay.style.display = 'flex';
+				const curtain = document.getElementById('curtain');
+				const title = document.getElementById('title');
+
+				function setAudio(){
+
+					listener = new THREE.AudioListener();
+					const audio = new THREE.Audio( listener );
+					const file = 'public/audio/winstartup.mp3';
+					startButton.remove();
+					title.remove();
+					overlay.style.opacity = '0';
+					overlay.style.pointerEvents = 'none';
+					setTimeout(() => overlay.remove(), 3000);
+
+					changeText();
+
+					if ( /(iPad|iPhone|iPod)/g.test( navigator.userAgent ) ) {
+
+						const loader = new THREE.AudioLoader();
+						loader.load( file, function ( buffer ) {
+
+							audio.setBuffer( buffer );
+							audio.play();
+
+						} );
+
+					} else {
+
+						const mediaElement = new Audio( file );
+						mediaElement.play();
+
+						audio.setMediaElementSource( mediaElement );
+
+					}
+				}
+
+
 
 				//
 
@@ -72,7 +161,9 @@
                     shiba.scale.set(200,200,200);
                     shiba.position.y = -3;
                     scene.add(gltf.scene);
-
+					curtain.style.opacity = '0';
+					curtain.style.pointerEvents = 'none';
+					setTimeout(() => curtain.remove(), 3000);
                     }, undefined, function ( error ) {
                     console.error( error );
                 } );
@@ -86,7 +177,7 @@
 					{
 						textureWidth: 512,
 						textureHeight: 512,
-						waterNormals: new THREE.TextureLoader().load( 'public/textures/waternormals.jpg', function ( texture ) {
+						waterNormals: new THREE.TextureLoader().load( 'public/textures/sandnormal.jpg', function ( texture ) {
 
 							texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
@@ -95,7 +186,7 @@
 						sunColor: 0xffffff,
 						waterColor: 0x001e0f,
 						distortionScale: 3.7,
-						fog: scene.fog !== undefined
+						fog: new THREE.Fog( 0xcccccc, 10, 15 ),
 					}
 				);
 
@@ -171,7 +262,7 @@
 				container.appendChild( stats.dom );
 
 				// GUI
-
+/*
 				const gui = new GUI();
 
 				const folderSky = gui.addFolder( 'Sky' );
@@ -185,7 +276,7 @@
 				folderWater.add( waterUniforms.distortionScale, 'value', 0, 8, 0.1 ).name( 'distortionScale' );
 				folderWater.add( waterUniforms.size, 'value', 0.1, 10, 0.1 ).name( 'size' );
 				folderWater.open();
-
+*/
 				//
 
 				window.addEventListener( 'resize', onWindowResize );
@@ -216,10 +307,10 @@
 				mesh.rotation.x = time * 0.5;
 				mesh.rotation.z = time * 0.51;
 
-				water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
+				water.material.uniforms[ 'time' ].value += 1 / 60.0;
 
 				if(shiba)
-					shiba.position.y = Math.sin(time) * 2 -3;
+					shiba.position.y = Math.sin(time) * 1 -3;
 
 				renderer.render( scene, camera );
 
