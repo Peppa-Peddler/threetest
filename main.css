@@ -6,7 +6,7 @@ body {
 	margin: 0;
 	background-color: #000;
 	color: #fff;
-	font-family: Monospace;
+	font-family: "Press Start 2P", serif;
 	font-size: 13px;
 	line-height: 24px;
 	overscroll-behavior: none;
@@ -61,20 +61,18 @@ a, button, input, select {
 }
 
 #title{
-	font-size: 60px;
+	font-size: 30px;
 	max-width: 300px;
-	font-family: 'Times New Roman', Times, serif;
-	line-height: 0.8;
-	letter-spacing: -4px;
+	line-height: 1.2;
+	text-transform: uppercase;
 	text-align: center;
 }
 
 #title span{
-	font-size: 10px;
+	font-size: 15px;
 	display: block;
 	letter-spacing: 0;
 	margin-top: 10px;
-	font-family: Arial, Helvetica, sans-serif;
 	font-weight: 400;
 }
 
@@ -128,9 +126,11 @@ a, button, input, select {
 		border: 1px solid rgb(255, 255, 255);
 		border-radius: 100%;
 		color: #ffffff;
-		padding: 25px 18px;
+		padding: 35px 18px;
 		text-transform: uppercase;
-		cursor: pointer;
+		cursor: pointer;	
+		font-size: 10px;
+		font-family: "Press Start 2P", serif;
 	}
 
 #notSupported {
@@ -139,4 +139,71 @@ a, button, input, select {
 	background-color: #f00;
 	margin-top: 20px;
 	padding: 10px;
+}
+
+#game-container{
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	z-index: 100;
+	text-transform: uppercase;
+	padding: 30px;
+	font-size: 12px;
+}
+
+#game-container h2{
+	position: fixed;
+	top: 20px;
+	font-size: 15px;
+	width: 500px;
+	left: 50%;
+	margin: 0px;
+}
+
+#game-container p.question{
+	position: fixed;
+	right: 50%;
+	top: 20px;
+	margin: 0px;
+	font-size: 15px;
+	padding-right: 20px;
+	width: 400px;
+	text-align: right;
+	color: #373033;
+	line-height: 1.5;
+}
+
+@media all and ( max-width: 640px ) {
+	#game-container p.question{
+		display: none;
+	}
+
+	#game-container h2{
+		width: auto;
+		left: 0px;
+		padding: 30px;
+	}
+
+}
+
+#game-container p{
+	max-width: 800px;
+}
+
+#game-container button{
+	background: none;
+	font-family: "Press Start 2P", serif;
+	padding: 20px;
+	color: #ffffff;
+	border-color: #ffffff;
+	margin-right: 5px;
+}
+
+#game-container button:hover{
+	background: rgba(255,255,255,0.2);
+}
+
+#game-container button.back{
+	opacity: 0.4;
+	border: none;
 }
